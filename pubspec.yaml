@@ -1,0 +1,25 @@
+name: native_web_scroll
+description: Native (DOM) scrolling for Flutter Web with a single ScrollController.
+version: 1.0.0
+repository: https://github.com/brntsv/native_web_scroll.git
+
+topics:
+  - web
+  - scrolling
+  - scroll-controller
+  - platform-view
+  - dom
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  web: ^1.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
