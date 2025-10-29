@@ -4,5 +4,5 @@ import 'package:flutter/widgets.dart';
 /// with the platform's native scrolling on the current platform.
 ///
 /// Used by `NativeScrollBuilder` to build the scrollable subtree.
-typedef NativeScrollWidgetBuilder =
-    Widget Function(BuildContext context, ScrollController controller);
+typedef NativeScrollWidgetBuilder = Widget Function(
+    BuildContext context, ScrollController controller);

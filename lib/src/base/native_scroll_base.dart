@@ -49,7 +49,7 @@ class NativeScrollBuilder extends StatefulWidget {
   /// - If provided, [initialScrollOffset] and [keepScrollOffset] are ignored.
   final ScrollController? controller;
 
-  /// Invoked when the effective [ScrollController] 
+  /// Invoked when the effective [ScrollController]
   /// becomes available or changes.
   ///
   /// Called in `initState` and again if the effective controller source changes

@@ -21,7 +21,7 @@ class DomScroller {
   ///   to parent platform views (helps avoid nested scroll conflicts).
 
   DomScroller({required Axis axis, required bool stopWheelPropagation})
-    : _axis = axis {
+      : _axis = axis {
     container = HTMLDivElement()
       ..style.overflowX = axis == Axis.horizontal ? 'scroll' : 'hidden'
       ..style.overflowY = axis == Axis.vertical ? 'scroll' : 'hidden'

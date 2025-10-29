@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 /// A reusable mixin that encapsulates owning or adopting a [ScrollController].
 ///
 /// It supports:
-/// - creating an internal controller with `initialScrollOffset` 
+/// - creating an internal controller with `initialScrollOffset`
 ///   and `keepScrollOffset` via [initController] or [updateControllerSource],
 /// - adopting an external controller (without taking ownership),
 /// - switching between external and internal sources at runtime,
