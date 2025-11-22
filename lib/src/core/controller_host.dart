@@ -69,20 +69,29 @@ mixin ControllerHost<T extends StatefulWidget> on State<T> {
   }) {
     if (oldExternal == newExternal) return;
 
-    if (oldExternal == null && newExternal != null) {
+    final bool switchingToExternal = oldExternal == null && newExternal != null;
+    final bool switchingToInternal = oldExternal != null && newExternal == null;
+
+    final ScrollController? oldEffective = oldExternal ?? _owned;
+    if (oldEffective != null && onDetach != null) {
+      onDetach(oldEffective);
+    }
+
+    if (switchingToExternal) {
       _owned?.dispose();
       _owned = null;
     }
-    if (oldExternal != null && newExternal == null) {
+    if (switchingToInternal) {
       _owned = ScrollController(
         initialScrollOffset: initialScrollOffset,
         keepScrollOffset: keepScrollOffset,
       );
     }
+
     _external = newExternal;
+
     onCreated?.call(controller);
     if (onAttach != null) onAttach(controller);
-    if (oldExternal != null && onDetach != null) onDetach(oldExternal);
   }
 
   /// Disposes the owned controller if any.

@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.1
+## 1.0.3
 - Added web-native scrolling with a modular architecture:
   - Core: `ControllerHost` mixin, `NativeScrollConfig`, and types.
   - Base (non-web): uses a regular `ScrollController`.

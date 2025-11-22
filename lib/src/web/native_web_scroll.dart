@@ -97,6 +97,8 @@ class _NativeScrollBuilderState extends State<NativeScrollBuilder>
 
   ScrollController get _c => controller;
 
+  bool _disposed = false;
+
   @override
   void initState() {
     super.initState();
@@ -124,6 +126,7 @@ class _NativeScrollBuilderState extends State<NativeScrollBuilder>
     _attachController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _disposed) return;
       _updateDomExtent();
       _syncDomToController();
       if (_c.hasClients) {
@@ -157,6 +160,7 @@ class _NativeScrollBuilderState extends State<NativeScrollBuilder>
       onAttach: (_) {
         _attachController();
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted || _disposed) return;
           _updateDomExtent();
           _syncDomToController();
           if (_c.hasClients) {
@@ -169,6 +173,7 @@ class _NativeScrollBuilderState extends State<NativeScrollBuilder>
     if (oldWidget.config != widget.config) {
       // Config changed: resync DOM with current metrics.
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || _disposed) return;
         _updateDomExtent();
         _syncDomToController();
       });
@@ -178,6 +183,7 @@ class _NativeScrollBuilderState extends State<NativeScrollBuilder>
   void _onFlutterScroll() {
     if (_syncFromNative) return;
     if (!_c.hasClients) return;
+    if (!mounted || _disposed) return;
 
     _updateDomExtent();
     _syncDomToController();
@@ -186,6 +192,7 @@ class _NativeScrollBuilderState extends State<NativeScrollBuilder>
   void _onNativeScroll(double pixels) {
     if (_syncFromFlutter) return;
     if (!_c.hasClients) return;
+    if (!mounted || _disposed) return;
 
     _syncFromNative = true;
     try {
@@ -198,6 +205,7 @@ class _NativeScrollBuilderState extends State<NativeScrollBuilder>
   void _syncDomToController() {
     if (_dom == null) return;
     if (!_c.hasClients) return;
+    if (!mounted || _disposed) return;
 
     _syncFromFlutter = true;
     try {
@@ -210,6 +218,7 @@ class _NativeScrollBuilderState extends State<NativeScrollBuilder>
   void _updateDomExtent() {
     if (_dom == null) return;
     if (!_c.hasClients) return;
+    if (!mounted || _disposed) return;
 
     final viewport = _c.position.viewportDimension;
     final maxExtent = _c.position.maxScrollExtent;
@@ -223,9 +232,13 @@ class _NativeScrollBuilderState extends State<NativeScrollBuilder>
 
   @override
   void dispose() {
+    _disposed = true;
     _detachController(_c);
     disposeController();
-    _dom?.onScroll = null;
+    if (_dom != null) {
+      _dom!.onScroll = null;
+    }
+    _dom = null;
     super.dispose();
   }
 
@@ -241,6 +254,7 @@ class _NativeScrollBuilderState extends State<NativeScrollBuilder>
         HtmlElementView(viewType: _viewId),
         NotificationListener<ScrollMetricsNotification>(
           onNotification: (_) {
+            if (!mounted || _disposed) return false;
             _updateDomExtent();
             _syncDomToController();
             return false;
